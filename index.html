@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>一款CKEDITOR插件，用于在CKEDITOR中上传图片到upyun。</title>
+  </head>
+  <body>
+    <textarea class="ckeditor" name="editor1" id="editor1" cols="30" rows="10">
+
+    </textarea>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.6.1/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/async/2.1.4/async.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spark-md5/3.0.0/spark-md5.min.js"></script>
+    <script src="https://rawgit.com/liangzai-cool/js-multipart-upload/master/lib/upyun-mu.js"></script>
+    <script>
+      CKEDITOR.config.imageuploadforupyun = {
+        host: 'b0.upaiyun.com',
+        bucket_name: 'upyun-form',
+        form_api_secret: 'IRoTyNc75husfQD24cq0bNmRSDI='
+      }
+      var pluginName = 'imageuploadforupyun';
+      CKEDITOR.plugins.addExternal(pluginName, 'https://rawgit.com/liangzai-cool' + location.pathname + 'master/');
+      CKEDITOR.config.extraPlugins = pluginName;
+      CKEDITOR.config.removePlugins = 'image';
+    </script>
+  </body>
+</html>
