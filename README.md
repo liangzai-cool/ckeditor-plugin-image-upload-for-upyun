@@ -7,7 +7,8 @@
  https://liangzai-cool.github.io/ckeditor-plugin-image-upload-for-upyun/
 
 # Introduce
-基于CKEDITOR默认内置的 [Image](http://ckeditor.com/addon/image) 插件修改而来，本着尽量少修改代码的原则，只添加了上传到 [又拍云](http://upyun.com) 功能。
+基于CKEDITOR默认内置的 [Image](http://ckeditor.com/addon/image) 插件修改而来，本着尽量少修改代码的原则，只添加了上传到 [又拍云](http://upyun.com) 功能，未修改 image 插件的任何代码逻辑，上传使用了又拍云官方提供的 SDK [`js-multipart-upload`](https://github.com/upyun/js-multipart-upload))。
+
 本插件提供了配置项，可以在修改源码的情况使用本插件。
 
 引入依赖文件：
@@ -45,3 +46,5 @@ CKEDITOR.config.extraPlugins = pluginName;
 // 因为本插件是基于image插件修改而来，保留了image插件已有的功能，故此处需要禁用image插件，以免造成重复
 CKEDITOR.config.removePlugins = 'image';
 ```
+
+也可以直接修改本插件源码，以便进行更多配置，比如文件名生成策略等，关键代码看[这里](https://github.com/liangzai-cool/ckeditor-plugin-image-upload-for-upyun/blob/master/dialogs/imageuploadforupyun.js#L1078-L1113)。
