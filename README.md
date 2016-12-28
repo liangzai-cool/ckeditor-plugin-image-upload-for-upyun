@@ -1,4 +1,5 @@
 # ckeditor-plugin-image-upload-for-upyun
+![又拍云](https://raw.githubusercontent.com/liangzai-cool/ckeditor-plugin-image-upload-for-upyun/master/icons/image.png)
 
 # Website
  http://xueliang.org/
