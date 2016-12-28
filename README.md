@@ -1,0 +1,1 @@
+# ckeditor-plugin-image-upload-for-upyun
