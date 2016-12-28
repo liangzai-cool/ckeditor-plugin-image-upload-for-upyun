@@ -1,0 +1,26 @@
+{
+  "name": "ckeditor-plugin-image-upload-for-upyun",
+  "authors": [
+    "liangzai_cool <liangzai_cool@yeah.net>"
+  ],
+  "description": "一款CKEDITOR插件，用于在CKEDITOR中上传图片到upyun。",
+  "main": "",
+  "keywords": [
+    "upyun",
+    "ckeditor",
+    "image",
+    "upload"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/liangzai-cool/ckeditor-plugin-image-upload-for-upyun",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "upyun-multipart-upload": "^0.3.0"
+  }
+}
