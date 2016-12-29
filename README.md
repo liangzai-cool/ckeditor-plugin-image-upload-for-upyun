@@ -10,7 +10,7 @@
 # Introduce
 基于CKEDITOR默认内置的 [Image](http://ckeditor.com/addon/image) 插件修改而来，本着尽量少修改代码的原则，只添加了上传到 [又拍云](http://upyun.com) 功能，未修改 image 插件的任何代码逻辑，上传使用了又拍云官方提供的 SDK [`js-multipart-upload`](https://github.com/upyun/js-multipart-upload))。
 
-本插件提供了配置项，可以在修改源码的情况使用本插件。
+本插件提供了配置项，可以在不修改本插件源码的情况使用。
 
 引入依赖文件：
 ```
