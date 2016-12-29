@@ -1102,7 +1102,7 @@
 						    	var data = event.detail;
 						    	var bucketName = data.bucket_name;
 						    	var imagePath = data.path;
-						    	var imageUrl = config.protocol + bucketName + '.' + config.host + imagePath;
+						    	var imageUrl = 'http://' + bucketName + '.' + config.host + imagePath;
 						    	var dialog = CKEDITOR.dialog.getCurrent(); // 获取当前打开的对话框对象
 									dialog.selectPage('info');
 									dialog.getContentElement( 'info', 'txtUrl' ).setValue(imageUrl);
