@@ -23,9 +23,14 @@
 添加上传配置信息：
 ```
 CKEDITOR.config.imageuploadforupyun = {
-    host: 'b0.upaiyun.com',
-    bucket_name: 'upyun-form',
-    form_api_secret: 'IRoTyNc75husfQD24cq0bNmRSDI='
+    protocol: 'http://',                                           // 选填，上传时使用的HTTP协议，默认值是所在页面的协议
+    host: 'b0.upaiyun.com',                                        // 选填，上传地址，默认值为 'b0.upaiyun.com'
+    
+    // 以下配置信息来自 `js-multipart-upload`，详细介绍请移步至 https://github.com/upyun/js-multipart-upload 或者http://docs.upyun.com/api/form_api/
+    bucket_name: 'upyun-form',                                     // 必填，文件上传到的服务
+    form_api_secret: 'IRoTyNc75husfQD24cq0bNmRSDI=',               // 必填，表单 API
+    expiration: parseInt((new Date().getTime() + 3600000) / 1000), // 选填，上传请求过期时间，单位为秒，默认值为parseInt((new Date().getTime() + 3600000) / 1000)
+    
 }
 ```
 
