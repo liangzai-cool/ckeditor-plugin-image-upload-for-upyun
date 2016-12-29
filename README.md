@@ -39,18 +39,18 @@ CKEDITOR.config.imageuploadforupyun = {
 var pluginName = 'imageuploadforupyun';
 
 // 将插件注册到CKEDITOR上，并指明插件的根目录位置（CKEDITOR并不会加载该插件）。
-// 第二个参数可以是插件根目录的绝对位置，也直接以 `/` 开头，或者相对位置，只要保证最终解析的位置正确即可
+// 第二个参数是插件根目录的位置，可以是`http` 或者 `/` 开头的绝对地址，也直接是相对地址，只要保证最终解析的地址正确即可
 // 这一步写法有多种，这里使用了最简便和最好理解的写法
 // 更多写法参考官方文档：http://docs.ckeditor.com/#!/api/CKEDITOR.resourceManager-method-addExternal
-// 若插件被放置在 `ckeditor/plugins/` 下，这一步可以不写
 // CKEDITOR默认认为 `ckeditor/plugins/yourpluginname/` 是你编写的插件的根目录
+// 若插件被放置在 `ckeditor/plugins/` 下，这一步忽略不写
 CKEDITOR.plugins.addExternal(pluginName, 'https://rawgit.com/liangzai-cool' + location.pathname + 'master/');
 
 // 让CKEDITOR加载并引入插件，若有多个插件，需用逗号分隔
 CKEDITOR.config.extraPlugins = pluginName;
 
-// 因为本插件是基于image插件修改而来，保留了image插件已有的功能，故此处需要禁用image插件，以免造成重复
+// 因为本插件是基于image插件修改而来，完全保留了image插件已有的功能，故此处需要禁用image插件，以免造成功能重复
 CKEDITOR.config.removePlugins = 'image';
 ```
 
-也可以直接修改本插件源码，以便进行更多配置，比如文件名生成策略等，关键代码看[这里](https://github.com/liangzai-cool/ckeditor-plugin-image-upload-for-upyun/blob/master/dialogs/imageuploadforupyun.js#L1078-L1113)。
+也可以直接修改本插件源码，以便进行更多配置，比如文件名生成策略、过期时间，图片访问时的协议等，关键代码看[这里](https://github.com/liangzai-cool/ckeditor-plugin-image-upload-for-upyun/blob/master/dialogs/imageuploadforupyun.js#L1078-L1113)。
