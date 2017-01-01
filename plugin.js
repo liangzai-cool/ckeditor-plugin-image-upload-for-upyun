@@ -44,17 +44,18 @@
 			} ) );
 
 			// Register the toolbar button.
-			editor.ui.addButton && editor.ui.addButton( 'Image', {
+			editor.ui.addButton && editor.ui.addButton( pluginName, {
 				label: editor.lang.common.image,
 				command: pluginName,
-				toolbar: 'insert,10'
+				toolbar: 'insert,10',
+				icon: this.path + 'icons/image.png'
 			} );
 
 			editor.on( 'doubleclick', function( evt ) {
 				var element = evt.data.element;
 
 				if ( element.is( 'img' ) && !element.data( 'cke-realelement' ) && !element.isReadOnly() )
-					evt.data.dialog = 'image';
+					evt.data.dialog = pluginName;
 			} );
 
 			// If the "menu" plugin is loaded, register the menu items.
