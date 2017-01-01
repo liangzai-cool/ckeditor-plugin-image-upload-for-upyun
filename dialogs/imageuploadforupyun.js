@@ -1072,41 +1072,51 @@
 						label: editor.lang.imageuploadforupyun.btnUpload,
 						// 'for': [ 'Upload', 'upload' ]
 						onLoad: function(event) {
+							var file = document.getElementById(fileId);
 							this.on('click', function(evt) {
-								var fileButton = document.getElementById(fileButtonId);
-								var files = fileButton.files;
+								var files = file.files;
 								if (!files.length) {
 									alert(editor.lang.imageuploadforupyun.validateNoFileSelected);
 									return;
 								}
-								
-								CKEDITOR.config.imageuploadforupyun = CKEDITOR.config.imageuploadforupyun || {};
-						    var config = {
-						        bucket: CKEDITOR.config.imageuploadforupyun.bucket_name || '<your_bucket_name>',
-						        host: CKEDITOR.config.imageuploadforupyun.host || '<your_host>',
-						        protocol: CKEDITOR.config.imageuploadforupyun.protocol || 'http',
-						        expiration: CKEDITOR.config.imageuploadforupyun.expiration || parseInt((new Date().getTime() + 3600000) / 1000),
-						        form_api_secret: CKEDITOR.config.imageuploadforupyun.form_api_secret || '<your_form_api_secret>',
+								if (CKEDITOR.config.imageuploadforupyun.upload_type == 'rest_api') {
+									CKEDITOR.config.imageuploadforupyun = CKEDITOR.config.imageuploadforupyun || {};
+							    var config = {
+							        bucket: CKEDITOR.config.imageuploadforupyun.bucket_name || '<your_bucket_name>',
+							        host: CKEDITOR.config.imageuploadforupyun.host || '<your_host>',
+							        protocol: CKEDITOR.config.imageuploadforupyun.protocol || 'http',
+							        expiration: CKEDITOR.config.imageuploadforupyun.expiration || parseInt((new Date().getTime() + 3600000) / 1000),
+							        form_api_secret: CKEDITOR.config.imageuploadforupyun.form_api_secret || '<your_form_api_secret>',
+							        path: CKEDITOR.config.imageuploadforupyun.path || function () {
+							        	var ext = '.' + files[0].name.split('.').pop();
+							        	return '/images/' + parseInt((new Date().getTime() + 3600000) / 1000) + ext;
+							        }
+							    };
 
-						        path: CKEDITOR.config.imageuploadforupyun.path || function () {
-						        	var ext = '.' + files[0].name.split('.').pop();
-						        	return '/images/' + parseInt((new Date().getTime() + 3600000) / 1000) + ext;
-						        }
-						    };
-
-						    //uploaded
-						    document.addEventListener('uploaded', function (event) {
-						    	var data = event.detail;
-						    	var bucketName = data.bucket_name;
-						    	var imagePath = data.path;
-						    	var imageUrl = config.protocol + '://' + bucketName + '.' + config.host + imagePath;
-						    	var dialog = CKEDITOR.dialog.getCurrent(); // 获取当前打开的对话框对象
-									dialog.selectPage('info');
-									dialog.getContentElement( 'info', 'txtUrl' ).setValue(imageUrl);
-									fileButton.value = '';
-						    });
-						    var instance = new Sand(config);
-						    instance.upload(config.path(), '#' + fileButtonId);
+							    //uploaded
+							    document.addEventListener('uploaded', function (event) {
+							    	var data = event.detail;
+							    	var bucketName = data.bucket_name;
+							    	var imagePath = data.path;
+							    	var imageUrl = config.protocol + '://' + bucketName + '.' + config.host + imagePath;
+							    	var dialog = CKEDITOR.dialog.getCurrent(); // 获取当前打开的对话框对象
+										dialog.selectPage('info');
+										dialog.getContentElement( 'info', 'txtUrl' ).setValue(imageUrl);
+										file.value = '';
+							    });
+							    var instance = new Sand(config);
+							    instance.upload(config.path(), '#' + fileId);
+								} else {
+									CKEDITOR.scriptLoader.load(CKEDITOR.plugins.get(pluginName).path + 'lib/upyun.js', function() {
+							      upyun.upload('uploadForm', function(err, response, image) {
+							        if (err) return console.error(err);
+								    	var dialog = CKEDITOR.dialog.getCurrent(); // 获取当前打开的对话框对象
+											dialog.selectPage('info');
+											dialog.getContentElement( 'info', 'txtUrl' ).setValue(image.absUrl);
+											file.value = '';
+							      });
+								  });
+							  }
 							});
 						}
 					} ]
