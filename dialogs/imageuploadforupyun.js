@@ -1062,7 +1062,7 @@
 						id: 'fileButton',
 						label: editor.lang.imageuploadforupyun.btnUpload,
 						// style: 'height:40px',
-						html: '<input type="file" id="' + fileButtonId + '">'
+						html: '<form name="imageuploadforupyun_upload_form"> <input name="file" type="file" id="' + fileButtonId + '"></form>'
 						// size: 38
 					},
 					{
@@ -1072,7 +1072,7 @@
 						label: editor.lang.imageuploadforupyun.btnUpload,
 						// 'for': [ 'Upload', 'upload' ]
 						onLoad: function(event) {
-							var file = document.getElementById(fileId);
+							var file = document.getElementById(fileButtonId);
 							this.on('click', function(evt) {
 								var files = file.files;
 								if (!files.length) {
@@ -1108,7 +1108,7 @@
 							    instance.upload(config.path(), '#' + fileId);
 								} else {
 									CKEDITOR.scriptLoader.load(CKEDITOR.plugins.get(pluginName).path + 'lib/upyun.js', function() {
-							      upyun.upload('uploadForm', function(err, response, image) {
+							      upyun.upload('imageuploadforupyun_upload_form', function(err, response, image) {
 							        if (err) return console.error(err);
 								    	var dialog = CKEDITOR.dialog.getCurrent(); // 获取当前打开的对话框对象
 											dialog.selectPage('info');
