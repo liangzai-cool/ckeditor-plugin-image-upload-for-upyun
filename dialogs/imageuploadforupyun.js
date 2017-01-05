@@ -1090,8 +1090,8 @@
                       protocol: CKEDITOR.config.imageuploadforupyun.protocol || 'http',
                       expiration: CKEDITOR.config.imageuploadforupyun.expiration || parseInt((new Date().getTime() + 3600000) / 1000),
                       form_api_secret: CKEDITOR.config.imageuploadforupyun.form_api_secret || '<your_form_api_secret>',
-                      path: CKEDITOR.config.imageuploadforupyun.path || function () {
-                        var ext = '.' + files[0].name.split('.').pop();
+                      path: CKEDITOR.config.imageuploadforupyun.path || function (_file) {
+                        var ext = '.' + _file.name.split('.').pop();
                         return '/images/' + parseInt((new Date().getTime() + 3600000) / 1000) + ext;
                       }
                   };
@@ -1108,7 +1108,7 @@
                     file.value = '';
                   });
                   var instance = new Sand(config);
-                  instance.upload(config.path(), '#' + fileButtonId);
+                  instance.upload(config.path(files[0]), '#' + fileButtonId);
                 } else {
                   CKEDITOR.scriptLoader.load(CKEDITOR.plugins.get(pluginName).path + 'lib/upyun.js', function() {
                     upyun.upload('imageuploadforupyun_upload_form', function(err, response, image) {
