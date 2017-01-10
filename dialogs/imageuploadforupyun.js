@@ -1090,7 +1090,7 @@
                       protocol: CKEDITOR.config.imageuploadforupyun.protocol || 'http',
                       expiration: CKEDITOR.config.imageuploadforupyun.expiration || parseInt((new Date().getTime() + 3600000) / 1000),
                       form_api_secret: CKEDITOR.config.imageuploadforupyun.form_api_secret || '<your_form_api_secret>',
-                      path: CKEDITOR.config.imageuploadforupyun.path || function (_file) {
+                      path: (typeof CKEDITOR.config.imageuploadforupyun.path) == 'function' ? CKEDITOR.config.imageuploadforupyun.path(files[0]) : function (_file) {
                         var ext = '.' + _file.name.split('.').pop();
                         return '/images/' + parseInt((new Date().getTime() + 3600000) / 1000) + ext;
                       }
@@ -1108,9 +1108,10 @@
                     file.value = '';
                   });
                   var instance = new Sand(config);
-                  instance.upload(config.path(files[0]), '#' + fileButtonId);
+                  instance.upload(config.path, '#' + fileButtonId);
                 } else {
-                  CKEDITOR.scriptLoader.load(CKEDITOR.plugins.get(pluginName).path + 'lib/upyun.js', function() {
+                  var scriptUrl = CKEDITOR.plugins.get(pluginName).path + 'lib/upyun.js';
+                  function uploadFunction() {
                     upyun.upload('imageuploadforupyun_upload_form', function(err, response, image) {
                       if (err) return console.error(err);
                       var dialog = CKEDITOR.dialog.getCurrent(); // 获取当前打开的对话框对象
@@ -1118,7 +1119,12 @@
                       dialog.getContentElement( 'info', 'txtUrl' ).setValue(image.absUrl);
                       file.value = '';
                     });
-                  });
+                  }
+                  if (document.querySelectorAll('script[src="' + scriptUrl + '"]').length) {
+                    CKEDITOR.scriptLoader.load(scriptUrl, uploadFunction);;
+                  } else {
+                    uploadFunction();
+                  }
                 }
               });
             }
