@@ -1065,7 +1065,7 @@
             id: 'fileButton',
             label: editor.lang.imageuploadforupyun.btnUpload,
             // style: 'height:40px',
-            html: '<form name="imageuploadforupyun_upload_form"> <input name="file" type="file" id="' + fileButtonId + '"></form>'
+            html: '<input name="file" type="file" id="' + fileButtonId + '">'
             // size: 38
           },
           {
