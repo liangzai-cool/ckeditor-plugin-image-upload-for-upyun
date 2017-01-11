@@ -1082,50 +1082,31 @@
                   alert(editor.lang.imageuploadforupyun.validateNoFileSelected);
                   return;
                 }
-                if (CKEDITOR.config.imageuploadforupyun.upload_type == 'rest_api') {
-                  CKEDITOR.config.imageuploadforupyun = CKEDITOR.config.imageuploadforupyun || {};
-                  var config = {
-                      bucket: CKEDITOR.config.imageuploadforupyun.bucket_name || '<your_bucket_name>',
-                      host: CKEDITOR.config.imageuploadforupyun.host || '<your_host>',
-                      protocol: CKEDITOR.config.imageuploadforupyun.protocol || 'http',
-                      expiration: CKEDITOR.config.imageuploadforupyun.expiration || parseInt((new Date().getTime() + 3600000) / 1000),
-                      form_api_secret: CKEDITOR.config.imageuploadforupyun.form_api_secret || '<your_form_api_secret>',
-                      path: (typeof CKEDITOR.config.imageuploadforupyun.path) == 'function' ? CKEDITOR.config.imageuploadforupyun.path(files[0]) : function (_file) {
-                        var ext = '.' + _file.name.split('.').pop();
-                        return '/images/' + parseInt((new Date().getTime() + 3600000) / 1000) + ext;
-                      }
-                  };
+                CKEDITOR.config.imageuploadforupyun = CKEDITOR.config.imageuploadforupyun || {};
+                var config = {
+                  bucket: CKEDITOR.config.imageuploadforupyun.bucket_name || '<your_bucket_name>',
+                  host: CKEDITOR.config.imageuploadforupyun.host || '<your_host>',
+                  protocol: CKEDITOR.config.imageuploadforupyun.protocol || 'http',
+                  expiration: CKEDITOR.config.imageuploadforupyun.expiration || parseInt((new Date().getTime() + 3600000) / 1000),
+                  form_api_secret: CKEDITOR.config.imageuploadforupyun.form_api_secret || '<your_form_api_secret>',
+                  path: (typeof CKEDITOR.config.imageuploadforupyun.path) == 'function' ? CKEDITOR.config.imageuploadforupyun.path(files[0]) : (function (_file) {
+                    return '/images/{year}/{mon}/{day}/' + parseInt((new Date().getTime() + 3600000) / 1000) + '_' + _file.name;
+                  })(files[0])
+                };
 
-                  //uploaded
-                  document.addEventListener('uploaded', function (event) {
-                    var data = event.detail;
-                    var bucketName = data.bucket_name;
-                    var imagePath = data.path;
-                    var imageUrl = config.protocol + '://' + bucketName + '.' + config.host + imagePath;
-                    var dialog = CKEDITOR.dialog.getCurrent(); // 获取当前打开的对话框对象
-                    dialog.selectPage('info');
-                    dialog.getContentElement( 'info', 'txtUrl' ).setValue(imageUrl);
-                    file.value = '';
-                  });
-                  var instance = new Sand(config);
-                  instance.upload(config.path, '#' + fileButtonId);
-                } else {
-                  var scriptUrl = CKEDITOR.plugins.get(pluginName).path + 'lib/upyun.js';
-                  function uploadFunction() {
-                    upyun.upload('imageuploadforupyun_upload_form', function(err, response, image) {
-                      if (err) return console.error(err);
-                      var dialog = CKEDITOR.dialog.getCurrent(); // 获取当前打开的对话框对象
-                      dialog.selectPage('info');
-                      dialog.getContentElement( 'info', 'txtUrl' ).setValue(image.absUrl);
-                      file.value = '';
-                    });
-                  }
-                  if (document.querySelectorAll('script[src="' + scriptUrl + '"]').length) {
-                    CKEDITOR.scriptLoader.load(scriptUrl, uploadFunction);;
-                  } else {
-                    uploadFunction();
-                  }
-                }
+                //uploaded
+                document.addEventListener('uploaded', function (event) {
+                  var data = event.detail;
+                  var bucketName = data.bucket_name;
+                  var imagePath = data.path;
+                  var imageUrl = config.protocol + '://' + bucketName + '.' + config.host + imagePath;
+                  var dialog = CKEDITOR.dialog.getCurrent(); // 获取当前打开的对话框对象
+                  dialog.selectPage('info');
+                  dialog.getContentElement( 'info', 'txtUrl' ).setValue(imageUrl);
+                  file.value = '';
+                });
+                var instance = new Sand(config);
+                instance.upload(config.path, '#' + fileButtonId);
               });
             }
           } ]
