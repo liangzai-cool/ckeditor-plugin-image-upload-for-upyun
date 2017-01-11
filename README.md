@@ -8,38 +8,29 @@
  https://liangzai-cool.github.io/ckeditor-plugin-image-upload-for-upyun/
 
 # Introduce
-基于CKEDITOR默认内置的 [Image](http://ckeditor.com/addon/image) 插件修改而来，本着尽量少修改代码的原则，只添加了上传到 [又拍云](http://upyun.com) 功能，未修改 image 插件的任何代码逻辑。插件提供了两种上传方式，HTML5 分块上传和和传统表单上传，分块上传方式使用了又拍云官方提供的 SDK [`js-multipart-upload`](https://github.com/upyun/js-multipart-upload))。
+基于CKEDITOR默认内置的 [Image](http://ckeditor.com/addon/image) 插件修改而来，本着尽量少修改代码的原则，只添加了上传到 [又拍云](http://upyun.com) 功能，未修改 image 插件的任何代码逻辑。插件使用了HTML5分块上传，使用了又拍云官方提供的 SDK [`js-multipart-upload`](https://github.com/upyun/js-multipart-upload)。
 
 本插件提供了配置项，可以在不修改本插件源码的情况使用。
 
-分块上传方式上传需要引入依赖的文件：
+需要引入依赖的文件：
 ```
 <script src="https://cdnjs.cloudflare.com/ajax/libs/async/2.1.4/async.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/spark-md5/3.0.0/spark-md5.min.js"></script>
 <script src="https://rawgit.com/upyun/js-multipart-upload/master/lib/upyun-mu.js"></script>
 ```
 
-表单上传方式上传需要引入依赖的文件：
-```
-<script src="https://rawgit.com/blueimp/JavaScript-MD5/master/js/md5.js"></script>
-<script src="https://rawgit.com/dankogai/js-base64/master/base64.js"></script>
-```
-
 添加上传配置信息：
 ```
 CKEDITOR.config.imageuploadforupyun = {
-    upload_type: 'block_upload',                                   // 若使用分块方式上传，此项为必填项，不填或值不是'block_upload'的话，将采用表单上传
     protocol: 'http://',                                           // 选填，上传时使用的HTTP协议，默认值是所在页面的协议，推荐不填
     host: 'b0.upaiyun.com',                                        // 选填，上传后访问图片的域名，默认值为 'b0.upaiyun.com'
-    
     // 以下配置信息来自 `js-multipart-upload`，详细介绍请移步至 https://github.com/upyun/js-multipart-upload 或者http://docs.upyun.com/api/form_api/
     bucket_name: 'upyun-form',                                     // 必填，文件上传到的空间名
     form_api_secret: 'IRoTyNc75husfQD24cq0bNmRSDI=',               // 必填
     expiration: parseInt((new Date().getTime() + 3600000) / 1000), // 选填，上传请求过期时间，单位为秒，默认值为parseInt((new Date().getTime() + 3600000) / 1000),
-    path: function(file){                                          // 选填，在空间中保存的名称
-      return '/' + file.name;
+    path: function(file){                                          // 选填，在空间中保存的名称，可以使用官方表达式，详细介绍请移步至 http://docs.upyun.com/api/form_api/#save-key
+      return '/images/{year}/{mon}/{day}/{random}_' + _file.name;
     }
-    
 }
 ```
 
