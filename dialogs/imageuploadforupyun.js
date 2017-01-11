@@ -1085,7 +1085,7 @@
                 CKEDITOR.config.imageuploadforupyun = CKEDITOR.config.imageuploadforupyun || {};
                 var config = {
                   bucket: CKEDITOR.config.imageuploadforupyun.bucket_name || '<your_bucket_name>',
-                  host: CKEDITOR.config.imageuploadforupyun.host || '<your_host>',
+                  host: CKEDITOR.config.imageuploadforupyun.host || 'b0.upaiyun.com',
                   protocol: CKEDITOR.config.imageuploadforupyun.protocol || 'http',
                   expiration: CKEDITOR.config.imageuploadforupyun.expiration || parseInt((new Date().getTime() + 3600000) / 1000),
                   form_api_secret: CKEDITOR.config.imageuploadforupyun.form_api_secret || '<your_form_api_secret>',
