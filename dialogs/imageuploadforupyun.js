@@ -1090,7 +1090,7 @@
                   expiration: CKEDITOR.config.imageuploadforupyun.expiration || parseInt((new Date().getTime() + 3600000) / 1000),
                   form_api_secret: CKEDITOR.config.imageuploadforupyun.form_api_secret || '<your_form_api_secret>',
                   path: (typeof CKEDITOR.config.imageuploadforupyun.path) == 'function' ? CKEDITOR.config.imageuploadforupyun.path(files[0]) : (function (_file) {
-                    return '/images/{year}/{mon}/{day}/' + parseInt((new Date().getTime() + 3600000) / 1000) + '_' + _file.name;
+                    return '/images/{year}/{mon}/{day}/{random}_' + _file.name;
                   })(files[0])
                 };
 
